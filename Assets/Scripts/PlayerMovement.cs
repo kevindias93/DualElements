@@ -32,42 +32,34 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(teclaEsquerda)) x = -1f;
         if (Input.GetKey(teclaDireita)) x = 1f;
 
-        rb.velocity = new Vector2(x * speed, rb.velocity.y);
+        rb.linearVelocity = new Vector2(x * speed, rb.linearVelocity.y);
+
+        if (x != 0f)
+        {
+            Vector3 escala = transform.localScale;
+            escala.x = Mathf.Abs(escala.x) * Mathf.Sign(x);
+            transform.localScale = escala;
+        }
 
         noChao = Physics2D.OverlapCircle(checkChao.position, 0.12f, oQueEChao);
 
-        if (noChao && rb.velocity.y <= 0.1f)
+        if (noChao && rb.linearVelocity.y <= 0.1f)
             pulosDados = 0;
 
         if (Input.GetKeyDown(teclaPulo) && pulosDados < 2)
         {
             if (pulosDados == 0)
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             else
-                rb.velocity = new Vector2(rb.velocity.x, forcaSegundoPulo);
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, forcaSegundoPulo);
 
             pulosDados++;
         }
 
-        if (rb.velocity.y < 0)
+        if (rb.linearVelocity.y < 0)
         {
-            rb.velocity += Vector2.up * Physics2D.gravity.y * 2f * Time.deltaTime;
+            rb.linearVelocity += Vector2.up * Physics2D.gravity.y * 2f * Time.deltaTime;
         }
-    }
-
-    void OnCollisionEnter2D(Collision2D col)
-    {
-        if (col.gameObject.CompareTag("Ignis") || col.gameObject.CompareTag("Aqua"))
-        {
-            if (col.transform.position.y < transform.position.y)
-                transform.SetParent(col.transform);
-        }
-    }
-
-    void OnCollisionExit2D(Collision2D col)
-    {
-        if (col.gameObject.CompareTag("Ignis") || col.gameObject.CompareTag("Aqua"))
-            transform.SetParent(null);
     }
 
     void OnDrawGizmos()

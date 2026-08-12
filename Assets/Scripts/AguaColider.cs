@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class lavacolider : MonoBehaviour
+public class AguaColider : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D outro)
     {
-        if (outro.CompareTag("Aqua"))
+        if (outro.CompareTag("Ignis"))
         {
             GerenciadorFase.instancia.MorreramOsDois();
         }

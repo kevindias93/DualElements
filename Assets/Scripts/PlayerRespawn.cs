@@ -15,7 +15,7 @@ public class PlayerRespawn : MonoBehaviour
 
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
     }
 
     public void DefinirCheckpoint(Vector3 novaPosicao)
